@@ -6,7 +6,7 @@ import nextId from "react-id-generator";
 export default function App() {
   const [reqWord, setReqWord] = useState(null);
   const [wordData, setWordData] = useState(null);
-  const fetchQuotes = async () => {
+  const fetchWord = async () => {
     try {
       const res = await axios.get(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${reqWord}`
@@ -15,12 +15,12 @@ export default function App() {
     } catch (err) {
       setReqWord(null)
       setWordData(null)
-      console.error(err);
+      alert('incorrect word');
     }
   };
 
   useEffect(() => {
-    reqWord && fetchQuotes();
+    reqWord && fetchWord();
   }, [reqWord]);
 
   const output =
