@@ -4,7 +4,7 @@ import requestWordReducer from "../features/reqWordKeeper/requestWord";
 
 export default configureStore({
   reducer: {
-    definition: definitionReducer,
     reqWord: requestWordReducer,
+    definition: definitionReducer,
   },
 });

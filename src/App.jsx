@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import nextId from "react-id-generator";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setDefinitions } from "./features/definition/definitionSlice";
 import { setRequestWord } from "./features/reqWordKeeper/requestWord";
 
+import Definitions from "./routes/definition";
+import Synonyms from "./routes/Synonyms";
+
 export default function App() {
   const wordToFind = useSelector((state) => state.reqWord.value)
-  const definitions = useSelector((state) => state.definition.value);
+  
+  const dispatch = useDispatch();
 
   const fetchWord = async () => {
     try {
@@ -19,36 +22,13 @@ export default function App() {
     } catch (err) {
       dispatch(setRequestWord(null))
       dispatch(setDefinitions([]))
-      alert("there is no definition for that word");
+      alert(`there is no definition for "${wordToFind}"`);
     }
   };
 
   useEffect(() => {
     wordToFind && fetchWord();
   }, [wordToFind]);
-
-  const output =
-    definitions &&
-    definitions.map((meaning) => {
-      return (
-        <div key={nextId()} className="word_description">
-          <h2>{wordToFind}</h2>
-          <div className="partOfSpeech">{meaning.partOfSpeech}</div>
-          <ol>
-            {meaning.definitions.map((definition) => {
-              return (
-                <li key={nextId()}>
-                  <div>
-                    <span>{definition.definition}</span>
-                    {definition.example && <i>{definition.example}</i>}
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      );
-    });
 
   function handleReqWordChange(e) {
     if (e.key === "Enter") {
@@ -57,12 +37,10 @@ export default function App() {
         dispatch(setRequestWord(null))
       }
       dispatch(setRequestWord(e.target.value))
-      console.log(1)
       document.getElementById("reqWordSetter").value = "";
     }
   }
-
-  const dispatch = useDispatch();
+  
 
   return (
     <main>
@@ -77,7 +55,9 @@ export default function App() {
           onKeyDown={handleReqWordChange}
         />
       </div>
-      <div className="word_desc_section">{output}</div>
+      <div className="mode-selector-section"></div>
+      <Definitions />
+      {/* <Synonyms /> */}
     </main>
   );
 }
