@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+import { Routes, Link, Route, useLocation } from "react-router-dom";
+
 import { useSelector, useDispatch } from "react-redux";
 import { setDefinitions } from "./features/definition/definitionSlice";
 import { setRequestWord } from "./features/reqWordKeeper/requestWord";
@@ -9,9 +11,11 @@ import Definitions from "./routes/definition";
 import Synonyms from "./routes/Synonyms";
 
 export default function App() {
-  const wordToFind = useSelector((state) => state.reqWord.value)
-  
+  const wordToFind = useSelector((state) => state.reqWord.value);
+
   const dispatch = useDispatch();
+  const location = useLocation();
+
 
   const fetchWord = async () => {
     try {
@@ -20,8 +24,8 @@ export default function App() {
       );
       dispatch(setDefinitions(res.data[0].meanings));
     } catch (err) {
-      dispatch(setRequestWord(null))
-      dispatch(setDefinitions([]))
+      dispatch(setRequestWord(null));
+      dispatch(setDefinitions([]));
       alert(`there is no definition for "${wordToFind}"`);
     }
   };
@@ -33,14 +37,13 @@ export default function App() {
   function handleReqWordChange(e) {
     if (e.key === "Enter") {
       if (!e.target.value) {
-        dispatch(setDefinitions([]))
-        dispatch(setRequestWord(null))
+        dispatch(setDefinitions([]));
+        dispatch(setRequestWord(null));
       }
-      dispatch(setRequestWord(e.target.value))
+      dispatch(setRequestWord(e.target.value));
       document.getElementById("reqWordSetter").value = "";
     }
   }
-  
 
   return (
     <main>
@@ -55,9 +58,29 @@ export default function App() {
           onKeyDown={handleReqWordChange}
         />
       </div>
-      <div className="mode-selector-section"></div>
-      <Definitions />
-      {/* <Synonyms /> */}
+      <div className="mode-selector-section">
+        <Link to="/definitions">
+          <button
+            className={
+              location.pathname === "/definitions" ? "active" : ""
+            }
+          >
+            Definitions
+          </button>
+        </Link>
+        <Link to="/synonyms">
+          <button
+            className={location.pathname === "/synonyms" ? "active" : ""}
+          >
+            Synonyms
+          </button>
+        </Link>
+      </div>
+      <Routes>
+        {/* <Route path="/" element={<div></div>} /> */}
+        <Route path="/definitions" element={<Definitions />} />
+        <Route path="/synonyms" element={<Synonyms />} />
+      </Routes>
     </main>
   );
 }
