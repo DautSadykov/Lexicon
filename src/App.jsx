@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Routes, Link, Route, useLocation } from "react-router-dom";
+import { Routes, Link, Route, useLocation, useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setDefinitions } from "./features/definition/definitionSlice";
@@ -15,7 +15,11 @@ export default function App() {
 
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    navigate("/definitions");
+  }, []);
 
   const fetchWord = async () => {
     try {
