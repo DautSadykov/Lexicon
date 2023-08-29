@@ -21,8 +21,8 @@ export default function App() {
     try {
       const res = await axios.get(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${wordToFind}`
-      );
-      dispatch(setDefinitions(res.data[0].meanings));
+        );
+        dispatch(setDefinitions(res.data[0].meanings));
     } catch (err) {
       dispatch(setRequestWord(null));
       dispatch(setDefinitions([]));
@@ -77,7 +77,7 @@ export default function App() {
         </Link>
       </div>
       <Routes>
-        {/* <Route path="/" element={<div></div>} /> */}
+        <Route path="/" element={<div></div>} />
         <Route path="/definitions" element={<Definitions />} />
         <Route path="/synonyms" element={<Synonyms />} />
       </Routes>
