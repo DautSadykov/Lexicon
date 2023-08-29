@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setDefinitions } from "./features/definition/definitionSlice";
 import { setRequestWord } from "./features/reqWordKeeper/requestWord";
 
-import Definitions from "./routes/definition";
+import Definitions from "./routes/Definition";
 import Synonyms from "./routes/Synonyms";
 
 export default function App() {
